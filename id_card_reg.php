@@ -10,6 +10,7 @@ include 'inc/aside.php';
 if (isset($_POST['submit'])) {
 
     $reg_Num = @$_POST['reg_Num'];
+    $type = $_POST['type'];
     
    
 
@@ -20,11 +21,25 @@ if (isset($_POST['submit'])) {
     if ($rows != 0) {
         $_SESSION['reg_Num'] = $reg_Num;
         
-      echo "<meta http-equiv='refresh' content = '0; url = pdf_id_card_reg.php'/>";
-
+        if($type==1)
+        {
+            echo "<meta http-equiv='refresh' content = '0; url = pdf_id_card_reg.php'  target='_blank'/>";
+            // echo "<meta http-equiv='refresh' content = '0; url=javascript:window.open('pdf_id_card_reg','_blank')/>";
+                exit();
+        }
+        else
+        {
+            echo "<meta http-equiv='refresh' content = '0; url = pdf_id_card_reg2.php'  target='_blank'/>";
+            // echo "<meta http-equiv='refresh' content = '0; url=javascript:window.open('pdf_id_card_reg','_blank')/>";
+                exit();
+        }
+     
     } else 
-    $message = 'Student`s Record does`nt exist, change entries and try again';
-                $alert = 'alert alert-danger alert-dismissible';
+    {
+        $message = 'Student`s Record does not exist, change entries and try again';
+        $alert = 'alert alert-danger alert-dismissible';
+    }
+    
   }
   //include 'footer.php';
  
@@ -91,19 +106,39 @@ if (isset($_POST['submit'])) {
                     //  echo $gender;
                     if (!empty($message)) {
                         echo '<div style="width:100%; margin-left:0%">
-                                                                  <div class="' .
-                            $alert .
-                            '">
-                                                                      <button type="button" class="close" data-dismiss="alert"
-                                                                          aria-hidden="true">&times;</button>
-                                                                      <h5><i class="icon fas fa-info"></i> Alert!</h5>
-                                                                      ' .
-                            $message .
-                            '
-                                                                  </div>
-                                                              </div>';
+                            <div class="' .$alert .'"><button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">&times;</button><h5><i class="icon fas fa-info"></i> Alert!</h5>' .$message .
+                            '</div></div>';
                     }
 
+                    if (!empty($_SESSION['no_image']=='Y')) {
+                        $alert = 'alert alert-danger alert-dismissible';
+                    echo '<div style="width:100%; margin-left:0%">
+                          <div class="' .$alert .'">
+                              <button type="button" class="close" data-dismiss="alert"
+                                  aria-hidden="true">&times;</button>
+                              <h5><i class="icon fas fa-info"></i> Alert!</h5>
+                              No Image Found for '.$_SESSION['reg_Num'].'
+                          </div>
+                      </div>';
+                      $_SESSION['no_image']='';
+                     $reg_Num = $_SESSION['reg_Num'];
+                     $_SESSION['reg_Num'] = '';
+                    }
+                    if (!empty($_SESSION['no_image']=='N')) {
+                        $alert = 'alert alert-success alert-dismissible';
+                    echo '<div style="width:100%; margin-left:0%">
+                          <div class="' .$alert .'">
+                              <button type="button" class="close" data-dismiss="alert"
+                                  aria-hidden="true">&times;</button>
+                              <h5><i class="icon fas fa-info"></i> Alert!</h5>
+                              ID Card Generated for '.$_SESSION['reg_Num'].'
+                          </div>
+                      </div>';
+                      $_SESSION['no_image']='';
+                     $reg_Num = $_SESSION['reg_Num'];
+                     $_SESSION['reg_Num'] = '';
+                    }
                     ?>
                     <!-- end of message -->
                     <div class="card card-primary">
@@ -112,29 +147,34 @@ if (isset($_POST['submit'])) {
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="POST" action="id_card_reg.php" name="id_car_check">
+                        <form method="POST" action="" id="id_car_check" name="id_car_check">
                             <div class="card-body">
                                
-                                    <div class="form-group" >
+                        <div class="form-group" >
                         <label for="passenger">Registration Number:</label>
                        
-                        <input type="text" class="form-control" id="reg_Num" placeholder="Enter Registration Number"
-                                                name='reg_Num'>
+                        <input type="text" class="form-control" id="reg_Num" value ="<?php if(isset($reg_Num)) {echo $reg_Num;}?>" placeholder="Enter Registration Number" name='reg_Num'>
                                 
                     
-                                    </div>
-                                    
+                        </div>
+                        <div class="form-group" >
+                            <label for="">Type</label>
+                           <select name="type" id="" class="form-control" name = 'type'>
+                            <option value="1">First</option>
+                            <option value="2">Second</option>
 
-                                   
-                                </div>
+                           </select>
+                        </div>       
+                      </div>
                                 
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" name="submit" class="btn btn-primary">Submit</button> &nbsp<a class="btn btn-info" href="courses_his.php">Back</a>
+                                <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button> &nbsp<a class="btn btn-info" href="courses_his.php">Back</a>
                             </div>
                         </form>
                     </div>
+                    <div id = 'note'></div>
                 </div>
             </div>
             <!-- /.row (main row) -->
@@ -143,4 +183,40 @@ if (isset($_POST['submit'])) {
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script type="text/javascript">
+                // alert("dd");
+               
+                $(document).ready(function() {
+// alert("sd");
+                                // login
+                    var form = $('#id_car_check'); // batch result form
+                    var submit = $('#submit'); // batch submit button
+                    var note = $('#note'); // r show alert message for batch result
+                    // form submit event for session
+                    submit.on('click', function(e) {
+                        e.preventDefault(); // prevent default form submit
+                        $.ajax({
+                            url: 'process\\process_single_id_card.php', // form action url
+                            type: 'POST', // form submit method get/post
+                            //dataType: 'html', // request type html/json/xml
+                            data: form.serialize(), // serialize form data
+                            beforeSend: function() {
+                                //alert.fadeOut();
+                                submit.html('Generating....'); // change submit button text
+                            },
+                            success: function(data) {
+                                note.html(data).fadeIn(); //fade in response data
+                                submit.html('Submit'); // change submit button text
+
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    });
+
+
+                });
+            </script>
 <?php include 'inc/footer.php'; ?>

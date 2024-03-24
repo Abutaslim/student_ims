@@ -33,7 +33,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 						$q = "UPDATE `tblstudent` SET `status`= 1 WHERE `reg_number` = '$reg'";
 						mysqli_query($dbc,$q);
 						
-						$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo.jpg")');
+						$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo2.jpg")');
 						$mpdf->SetDefaultBodyCSS('background-image-resize', 6);
 						$html = '<style type="text/css">
 						
@@ -44,7 +44,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 							}
 						</style>
 						<div style="width: 100%;   border-style: solid; height: 100%;">
-						<img style="width: 100%" src = "imgs/header_demo.jpg">
+						<img style="width: 100%" src = "imgs/header_demo2.jpg">
 						<div style="width: 56%;font-size:13px;padding-left:5px;float: left; font-family: Britannic Bold; color:white; height: 100%">
 
 							<img style="padding-left:60x;width:69.5px; height:69.5px; padding-top: 0px" src = "imgs/logo_demo.jpg">
@@ -104,8 +104,9 @@ $mpdf->Cell(20,5,'',0,0, '');
 					
 					');
 					// $mpdf->Output();
+
 					$filename=str_replace('/','',$reg).'_'.time();
-					$mpdf->OutputFile(__DIR__ . '/id cards/'.$filename.'_1.pdf', 'D');
+					$mpdf->OutputFile(__DIR__ . '/id cards/'.$filename.'_2.pdf', 'D');
 					$_SESSION['no_image'] = "N";
 					echo "<meta http-equiv='refresh' content = '0; url = id_card_reg.php'/>";
 				}

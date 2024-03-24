@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
 
     } else 
    
-                $message = 'Student`s Record does`nt exist, change entries and try again';
+                $message = 'Student`s Record does not exist, change entries and try again';
                 $alert = 'alert alert-danger alert-dismissible';
             
   }
@@ -119,9 +119,31 @@ if (isset($_POST['submit'])) {
                                     <div class="col-sm-6">
                                     <div class="form-group" >
                         <label for="passenger">Program:</label>
-                       
-                        <input type="text" class="form-control" id="program" placeholder="Enter program"
-                                                name='program'>
+                       <select name='program' id="program" class="form-control" required>
+                       <option>ND OTM</option>
+                       <option>ND Civil</option>
+
+                        <?php
+                        //  echo "<option>s</option>";
+                        // $r = mysqli_query($dbc, "select Distinct course_of_study from tblstudent");
+                        // if(mysqli_num_rows($r) > 0)
+                        // {
+                        //     while($row = mysqli_fetch_array($r));
+                        //     {
+                        //         echo "<option>".$row['course_of_study']."</option>";
+                        //     }
+                        // }
+                        // else
+                        // {
+                        //     echo "<option>s</option>";
+                        // }
+                        
+                      
+                        ?>
+
+                       </select>
+                        <!-- <input type="text" class="form-control" id="program" placeholder="Enter program" -->
+                                                <!-- name='program'> -->
                                 
                     </div>
                                     </div>
@@ -131,7 +153,7 @@ if (isset($_POST['submit'])) {
                                         <div class="form-group">
                                             <label for="session">Session</label>
                                             <input type="text" class="form-control" id="session" placeholder="Enter session"
-                                                name='session'>
+                                                name='session' required>
                                         </div>
                                     </div>
                                 </div>

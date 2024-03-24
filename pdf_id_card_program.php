@@ -21,7 +21,7 @@ $mpdf->Cell(20,5,'',0,0, '');
     $result = mysqli_query($dbc,$query);
     //$html = mysqli_num_rows($result);
     while ($row = mysqli_fetch_array($result)) {
-		
+		$image = $row['image_path'];
 		if ($row['image_path'] != '') {
 			
 		
@@ -31,7 +31,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 			$q = "UPDATE `tblstudent` SET `status`= 1 WHERE `reg_number` = '$reg'";
 			mysqli_query($dbc,$q);
 			
-			$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo.jpg")');
+			$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo2.jpg")');
 	$mpdf->SetDefaultBodyCSS('background-image-resize', 6);
 	$html = '<style type="text/css">
    	 
@@ -42,7 +42,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 		}
 	   </style>
 	   <div style="width: 100%;   border-style: solid; height: 100%;">
-	<img style="width: 100%" src = "imgs/header_demo.jpg">
+	<img style="width: 100%" src = "imgs/header_demo2.jpg">
 	<div style="width: 56%;font-size:13px;padding-left:5px;float: left; font-family: Britannic Bold; color:white; height: 100%">
 
 		<img style="padding-left:60x;width:69.5px; height:69.5px; padding-top: 0px" src = "imgs/logo_demo.jpg">
@@ -54,7 +54,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 	<div style="width: 40%;padding-top:10px;padding-right:5px; float: right;border-style: solid;height: 100%;">
 	<span style = "color: red; font-size: 12px; text-align: center"><span style="color:white;">-----</span>Student Id Card</span>
 	<div style="width:150px; height:100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border: radius 10px;">
-		<img  style="width:100%; height:100%;  " src = "imgs/user.PNG">
+		<img  style="width:100%; height:100%;  " src = "student_imgs/'.$image.'">
 		</div>
 	</div>
 </div>';
