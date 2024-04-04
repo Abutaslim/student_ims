@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
     $reg_Num = @$_POST['reg_Num'];
     
     //$iid = $_SESSION['username'].$oid;
-    $sql = "SELECT id, image_path FROM tblstudent WHERE  reg_number = '$reg_Num'";
+    $sql = "SELECT id, photo FROM tblstudent WHERE  reg_number = '$reg_Num'";
     $message ='';
     $alert = '';
     $id =0;
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
         
         while ($row = mysqli_fetch_array($result)) {
             $id = $row['id'];
-            $image = $row['image_path'];
+            $image = $row['photo'];
         }
         
         $target_dir = "student_imgs/";
@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
 
             if (move_uploaded_file(@$_FILES["passport"]["tmp_name"], $target_file)) {
 
-                $s = "UPDATE `tblstudent`SET `image_path` = '$image_name' WHERE id = '$id'";
+                $s = "UPDATE `tblstudent`SET `photo` = '$image_name' WHERE id = '$id'";
                 if (mysqli_query($dbc, $s)) {
                     $message .= 'Image is changed Successfully.<br>';
                      $alert = 'alert alert-info alert-dismissible';
@@ -243,8 +243,21 @@ if (isset($_POST['submit'])) {
                                 
                                         <div class="form-group">
                                             <label for="text">Registration Number</label>
-                                            <input type="text" name="reg_Num" id="reg_Num" class="form-control">
+                                            <select class="form-control" name='reg_Num'>
+                            <option>Select Registration Number</option>
+                            <?php  
 
+                                $sql = "SELECT * FROM tblstudent";
+                                $result = mysqli_query($dbc, $sql);
+                            while($rows = mysqli_fetch_array($result)){
+                               
+
+                                    echo '<option value = '.$rows[1].'>'.$rows[1].'('.$rows[2].' '.' '.$rows[3].')</option>';
+                                    //$_SESSION['reg_Num'] = $reg_Num;
+                                }
+
+                            ?>
+                        </select>   
                                         </div>
                                   
                                     

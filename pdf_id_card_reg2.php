@@ -21,12 +21,12 @@ $mpdf->Cell(20,5,'',0,0, '');
     //$html = mysqli_num_rows($result);
 	while ($row = mysqli_fetch_array($result)) 
 	{
-		$image = $row['image_path'];
-		if ($row['image_path'] != '') 
+		$image = $row['photo'];
+		if ($row['photo'] != '') 
 		{
 			
 		
-				if (file_exists('student_imgs/'.$row['image_path'].'')) 
+				if (file_exists('student_imgs/'.$row['photo'].'')) 
 				{
 						
 						$reg = $row['reg_number'];
