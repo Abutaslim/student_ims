@@ -73,7 +73,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 						$printText=true;
 						
 						$link_id=str_replace('/','_',$reg);
-						$qr =   'A-qr.png';
+						$qr = $link_id . '-qr.png';
 						QRcode::png("www.eforms.ubaznet.com/stud.php?id=$link_id:- Reg No: ".$text, $qr, 'H', 6, 6);
 
 						$qr_raw =   'Araw-qr.png';
