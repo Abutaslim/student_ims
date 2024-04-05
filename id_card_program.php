@@ -167,6 +167,26 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
             </div>
+
+            <?php 
+            
+            if(isset($_SESSION['message_no_image']))
+                    if (!empty($_SESSION['message_no_image'])) {
+                        $alert = 'alert alert-success alert-dismissible';
+                    echo '<div style="width:100%; margin-left:0%">
+                          <div class="' .$alert .'">
+                              <button type="button" class="close" data-dismiss="alert"
+                                  aria-hidden="true">&times;</button>
+                              <h5><i class="icon fas fa-info"></i> Alert!</h5>
+                              '.$_SESSION['message_no_image'].'
+                          </div>
+                      </div>';
+                      $_SESSION['message_no_image']='';
+                    //  $reg_Num = $_SESSION['reg_Num'];
+                    //  $_SESSION['reg_Num'] = '';
+                    }
+            
+            ?>
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
     </section>

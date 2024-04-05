@@ -111,6 +111,7 @@ if (isset($_POST['submit'])) {
                             '</div></div>';
                     }
 
+                    if(isset($_SESSION['no_image']))
                     if (!empty($_SESSION['no_image']=='Y')) {
                         $alert = 'alert alert-danger alert-dismissible';
                     echo '<div style="width:100%; margin-left:0%">
@@ -125,6 +126,8 @@ if (isset($_POST['submit'])) {
                      $reg_Num = $_SESSION['reg_Num'];
                      $_SESSION['reg_Num'] = '';
                     }
+                    
+                    if(isset($_SESSION['no_image']))
                     if (!empty($_SESSION['no_image']=='N')) {
                         $alert = 'alert alert-success alert-dismissible';
                     echo '<div style="width:100%; margin-left:0%">
@@ -152,23 +155,9 @@ if (isset($_POST['submit'])) {
                                
                         <div class="form-group" >
                         <label for="passenger">Registration Number:</label>
-                        <select class="form-control" name='reg_Num'>
-                            <option>Select Registration Number</option>
-                            <?php  
-
-                                $sql = "SELECT * FROM tblstudent";
-                                $result = mysqli_query($dbc, $sql);
-                            while($rows = mysqli_fetch_array($result)){
-                               
-
-                                    echo '<option value = '.$rows[1].'>'.$rows[1].'('.$rows[2].' '.' '.$rows[3].')</option>';
-                                    //$_SESSION['reg_Num'] = $reg_Num;
-                                }
-
-                            ?>
-                        </select>
                        
-                        
+                        <input type="text" class="form-control" id="reg_Num" value ="<?php if(isset($reg_Num)) {echo $reg_Num;}?>" placeholder="Enter Registration Number" name='reg_Num'>
+                                
                     
                         </div>
                         <div class="form-group" >

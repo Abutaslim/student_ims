@@ -3,7 +3,7 @@
 // session_start();
 require 'vendor/autoload.php';
 require 'inc/db.php';
-
+require_once('./inc/phpqrcode/qrlib.php');
 
 $mpdf =new  \Mpdf\Mpdf();
 
@@ -33,7 +33,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 						$q = "UPDATE `tblstudent` SET `status`= 1 WHERE `reg_number` = '$reg'";
 						mysqli_query($dbc,$q);
 						
-						$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo.jpg")');
+						$mpdf->SetDefaultBodyCSS('background','url("imgs/bg_image_demo2.jpg")');
 						$mpdf->SetDefaultBodyCSS('background-image-resize', 6);
 						$html = '<style type="text/css">
 						
@@ -44,7 +44,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 							}
 						</style>
 						<div style="width: 100%;   border-style: solid; height: 100%;">
-						<img style="width: 100%" src = "imgs/header_demo.jpg">
+						<img style="width: 100%" src = "imgs/header_demo2.jpg">
 						<div style="width: 56%;font-size:13px;padding-left:5px;float: left; font-family: Britannic Bold; color:white; height: 100%">
 
 							<img style="padding-left:60x;width:69.5px; height:69.5px; padding-top: 0px" src = "imgs/logo_demo.jpg">
@@ -72,9 +72,18 @@ $mpdf->Cell(20,5,'',0,0, '');
 						$barcodeSize=30;
 						$printText=true;
 						
+						$link_id=str_replace('/','_',$reg);
+						$qr =   'A-qr.png';
+						QRcode::png("www.eforms.ubaznet.com/stud.php?id=$link_id:- Reg No: ".$text, $qr, 'H', 6, 6);
+
+						$qr_raw =   'Araw-qr.png';
+						QRcode::png($text, $qr_raw, 'H', 6, 6);
+					
+						// $pdf->Cell(100, 22, $pdf->Image($qr, 75, $pdf->GetY(300), 60, 60), 0, 0, 'R');
+						// unlink($qr);
 						$mpdf->WriteHTML('<div style="background-color: white;text-align:justify; text-justify: inter-word; margin_left:5px; width: 100%; height:100%; padding-right: 5%; font-size: 8px;">
 						<ol style="margin-bottom:0px;" >	
-							<li >This id card is to be used by the holder for his/her stay at Bayero University and not transferable, it must be carried along at all times and presented on demand</li>
+							<li >This id card is to be used by the holder for his/her stay at Federal Polytechnic, Kabo and not transferable, it must be carried along at all times and presented on demand</li>
 							<li>It must be returned to the Student Affair`s Office on termination of studentship</li>
 					</ol>
 					
@@ -85,10 +94,10 @@ $mpdf->Cell(20,5,'',0,0, '');
 								<td style= "text-align: center"><b>IN CASE OF EMERGENCY<br>SECURITY OFFICE</b> <br>08063253405<br>08063253405<br><b> HEALTH SERVICES</b><br> 08063253405<br> 08063253405 </td>
 							</tr>
 							<tr >
-								<td colspan= "2"><img class=əbarcodeə alt="'.$barcodeText.'" src="barcode.php?text='.$barcodeText.'&codetype='.$barcodeType.'&orientation='.$barcodeDisplay.'&size='.$barcodeSize.'&print='.$printText.'"/> </td>
+								<td colspan= "2">	<img  style="width:50px; height:50px; " src = "./'.$qr.'"><img class=əbarcodeə alt="'.$barcodeText.'" src="barcode.php?text='.$barcodeText.'&codetype='.$barcodeType.'&orientation='.$barcodeDisplay.'&size='.$barcodeSize.'&print='.$printText.'"/>  </td>
 							</tr>
 						</table>
-						<div style= " margin-top: 40; "> 
+						<div style= " margin-top: 5; "> 
 						
 						
 						<table style= "font-size: 8px; margin-top:0px; margin-left:5px;width: 100%">
@@ -104,7 +113,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 					
 					');
 					// $mpdf->Output();
-					$filename=str_replace('/','',$reg).'_'.time();
+					$filename=str_replace('/','',$reg);
 					$mpdf->OutputFile(__DIR__ . '/id cards/'.$filename.'_1.pdf', 'D');
 					$_SESSION['no_image'] = "N";
 					echo "<meta http-equiv='refresh' content = '0; url = id_card_reg.php'/>";
