@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
                        <select name='program' id="program" class="form-control" required>
                        <option>ND OTM</option>
                        <option>ND Civil</option>
-
+                       </select>
                         <?php
                         //  echo "<option>s</option>";
                         // $r = mysqli_query($dbc, "select Distinct course_of_study from tblstudent");
@@ -141,7 +141,7 @@ if (isset($_POST['submit'])) {
                       
                         ?>
 
-                       </select>
+                       
                         <!-- <input type="text" class="form-control" id="program" placeholder="Enter program" -->
                                                 <!-- name='program'> -->
                                 

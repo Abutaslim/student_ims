@@ -21,11 +21,11 @@ $mpdf->Cell(20,5,'',0,0, '');
     $result = mysqli_query($dbc,$query);
     //$html = mysqli_num_rows($result);
     while ($row = mysqli_fetch_array($result)) {
-		$image = $row['image_path'];
-		if ($row['image_path'] != '') {
+		$image = $row['photo'];
+		if ($row['photo'] != '') {
 			
 		
-    	if (file_exists('student_imgs/'.$row['image_path'].'')) {
+    	if (file_exists('student_imgs/'.$row['photo'].'')) {
 			
 			$reg = $row['reg_number'];
 			$q = "UPDATE `tblstudent` SET `status`= 1 WHERE `reg_number` = '$reg'";
