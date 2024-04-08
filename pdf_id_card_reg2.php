@@ -3,7 +3,7 @@
 // session_start();
 require 'vendor/autoload.php';
 require 'inc/db.php';
-
+require_once('./inc/phpqrcode/qrlib.php');
 
 $mpdf =new  \Mpdf\Mpdf();
 
@@ -21,12 +21,12 @@ $mpdf->Cell(20,5,'',0,0, '');
     //$html = mysqli_num_rows($result);
 	while ($row = mysqli_fetch_array($result)) 
 	{
-		$image = $row['photo'];
-		if ($row['photo'] != '') 
+		$image = $row['image_path'];
+		if ($row['image_path'] != '') 
 		{
 			
 		
-				if (file_exists('student_imgs/'.$row['photo'].'')) 
+				if (file_exists('student_imgs/'.$row['image_path'].'')) 
 				{
 						
 						$reg = $row['reg_number'];
@@ -104,8 +104,7 @@ $mpdf->Cell(20,5,'',0,0, '');
 					
 					');
 					// $mpdf->Output();
-
-					$filename=str_replace('/','',$reg).'_'.time();
+					$filename=str_replace('/','',$reg);
 					$mpdf->OutputFile(__DIR__ . '/id cards/'.$filename.'_2.pdf', 'D');
 					$_SESSION['no_image'] = "N";
 					echo "<meta http-equiv='refresh' content = '0; url = id_card_reg.php'/>";
